@@ -4,6 +4,8 @@ import rasterize.*;
 import view.Panel;
 
 import javax.swing.*;
+import model.Polygon;
+import model.Point;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -14,6 +16,11 @@ public class Controller2D implements Controller {
     private int x,y;
     private LineRasterizer rasterizer;
 
+    private LineRasterizerTrivial rasterizerTrivial;
+
+    private PolygonRasterizer polygonRasterizer;
+    private Polygon polygon;
+
     public Controller2D(Panel panel) {
         this.panel = panel;
         initObjects(panel.getRaster());
@@ -22,7 +29,10 @@ public class Controller2D implements Controller {
 
     public void initObjects(Raster raster) {
         //rasterizer = new LineRasterizerGraphics(raster);
-        rasterizer = new LineRasterizerTrivial(raster);
+        rasterizerTrivial = new LineRasterizerTrivial(raster);
+//        rasterizer = new LineRasterizerTrivial(raster);
+        polygonRasterizer = new PolygonRasterizer(rasterizerTrivial);
+        polygon = new Polygon();
      }
 
     @Override
@@ -36,9 +46,16 @@ public class Controller2D implements Controller {
                 if (e.isShiftDown()) {
                     //TODO
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    rasterizer.rasterize(x, y, e.getX(), e.getY(), Color.RED);
+//                    rasterizer.rasterize(x, y, e.getX(), e.getY(), Color.RED);
+//                    x = e.getX();
+//                    y = e.getY();
+
+                    panel.clear();
                     x = e.getX();
                     y = e.getY();
+                    Point point = new Point(x,y);
+                    polygon.addPoint(point);
+                    polygonRasterizer.rasterize(polygon);
                 } else if (SwingUtilities.isMiddleMouseButton(e)) {
                     //TODO
                 } else if (SwingUtilities.isRightMouseButton(e)) {
@@ -51,6 +68,7 @@ public class Controller2D implements Controller {
             public void mouseClicked(MouseEvent e) {
                 if (e.isControlDown()) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
+
                         //rasterizer.rasterize(panel.getRaster().getWidth() /2, panel.getRaster().getHeight()/2, e.getX(), e.getY(), Color.YELLOW);
                     } else if (SwingUtilities.isRightMouseButton(e)) {
                         //TODO
@@ -68,7 +86,12 @@ public class Controller2D implements Controller {
                     //TODO
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
                     panel.clear();
-                    rasterizer.rasterize(panel.getRaster().getWidth() /2, panel.getRaster().getHeight()/2, e.getX(), e.getY(), Color.YELLOW);
+//                    rasterizer.rasterize(x, y, e.getX(), e.getY(), Color.YELLOW);
+                    x = e.getX();
+                    y = e.getY();
+                    Point point = new Point(x,y);
+                    polygon.replaceLastPoint(point);
+                    polygonRasterizer.rasterize(polygon);
                     //TODO
                 } else if (SwingUtilities.isRightMouseButton(e)) {
                     //TODO

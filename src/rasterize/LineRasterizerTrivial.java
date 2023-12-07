@@ -1,6 +1,7 @@
 package rasterize;
 
 import java.awt.*;
+import model.Point;
 import java.io.Console;
 
 public class LineRasterizerTrivial extends LineRasterizer {
@@ -9,6 +10,9 @@ public class LineRasterizerTrivial extends LineRasterizer {
         super(raster);
     }
 
+    public void drawLine(Point point) {
+        raster.setPixel(point.x, point.y, Color.yellow.getRGB());
+    }
     @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
         //Triviální algoritmus y = kx + q
@@ -42,13 +46,13 @@ public class LineRasterizerTrivial extends LineRasterizer {
         if (Math.abs(k) < 1.0) {
             do {
                 float y = k * x1 + q;
-                raster.setPixel(x1, Math.round(y), this.color.getRGB());
+                raster.setPixel(x1, Math.round(y), Color.yellow.getRGB());
                 x1++;
             } while (x1 <= x2);
         } else {
             do {
                 float x = (y1 - q) / k;
-                raster.setPixel(Math.round(x), y1, this.color.getRGB());
+                raster.setPixel(Math.round(x), y1, Color.yellow.getRGB());
                 y1++;
             } while (y1 <= y2);
         }
