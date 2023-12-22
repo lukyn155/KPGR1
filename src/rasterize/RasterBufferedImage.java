@@ -13,7 +13,7 @@ public class RasterBufferedImage implements Raster {
     }
 
     public RasterBufferedImage(int width, int height) {
-        // inicializace image, nastavení rozmìrù (nastavení typu - pro nás nedùležité)
+        // inicializace image, nastavenï¿½ rozmï¿½rï¿½ (nastavenï¿½ typu - pro nï¿½s nedï¿½leï¿½itï¿½)
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
@@ -28,18 +28,32 @@ public class RasterBufferedImage implements Raster {
         graphics.drawImage(raster.img, 0, 0, null);
     }
 
-    public Graphics getGraphics(){
+    public Graphics getGraphics() {
         return img.getGraphics();
     }
 
     @Override
     public int getPixel(int x, int y) {
-        return img.getRGB(x, y);
+        if (!(x > getWidth()) && !(y > getHeight()) && !(x < 0) && !(y < 0)) {
+            return img.getRGB(x, y);
+        } else {
+            return img.getRGB(0, 0);
+        }
+    }
+
+    public Color getPixelColor(int x, int y) {
+        if (!(x > getWidth()) && !(y > getHeight()) && !(x < 0) && !(y < 0)) {
+            return new Color(img.getRGB(x, y));
+        } else {
+            return new Color(img.getRGB(0, 0));
+        }
     }
 
     @Override
     public void setPixel(int x, int y, int color) {
-           img.setRGB(x, y, color);
+        if (!(x >= getWidth()) && !(y >= getHeight()) && !(x < 0) && !(y < 0)) {
+            img.setRGB(x, y, color);
+        }
     }
 
     @Override
