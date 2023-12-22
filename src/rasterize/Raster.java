@@ -1,5 +1,7 @@
 package rasterize;
 
+import java.awt.*;
+
 public interface Raster {
 
     void clear();
@@ -11,6 +13,8 @@ public interface Raster {
     int getHeight();
 
     int getPixel(int x, int y);
+
+    Color getPixelColor(int x, int y);
 
     void setPixel(int x, int y, int color) ;
 }
