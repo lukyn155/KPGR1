@@ -1,7 +1,13 @@
 package fill;
 
-public interface Filler {
+import model.Point;
+import model.Polygon;
 
-    void fill();
+import java.awt.*;
+
+public interface Filler {
+    void fill(Point point, Color color);
+    void fill(Point point);
+    void fill(Polygon polygon);
 
 }
